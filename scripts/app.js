@@ -1,7 +1,16 @@
 const API = 'http://localhost:3000'
 let masterNode
 
+const socket = new WebSocket(`ws://localhost:3000/updates`)
+socket.onmessage = msg => {
+    console.log('message recieved')
+    masterNode = JSON.parse(msg.data)
+    console.log(masterNode.factories)
+    renderFactories()
+}
+
 const renderFactories = () => {
+    console.log(masterNode)
     $('#factories').empty();
     for(factory of masterNode.factories){
         createFactory(factory)
@@ -15,13 +24,12 @@ axios.get('http://localhost:3000').then(res => {
 })
 
 $('#root').click(e => {
-    renderFactories()
+    socket.send(JSON.stringify({msg:"big bean burrito"}))
 })
 
 $('#factories').on('click', '.delete-factory', function(e){
     axios.delete(`${API}/factories/${this.parentElement.id}`)
     .then(res => {
-        masterNode = res.data;
         renderFactories()
     }).catch(err => console.log(err))
 
