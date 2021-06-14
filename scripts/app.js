@@ -32,7 +32,7 @@ $('#root').click(e => {
 })
 
 $('#factories').on('click', '.delete-factory', function(e){
-    axios.delete(`${API}/factories/${this.parentElement.parentElement.id}`)
+    axios.delete(`${API}/factories/${this.parentElement.id}`)
     .then(res => {
         console.log(res.status)
     }).catch(err => console.log(err))
