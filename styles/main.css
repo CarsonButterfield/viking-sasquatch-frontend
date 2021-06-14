@@ -1,0 +1,16 @@
+#factories {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:100%;
+}
+
+.factory{
+    min-width:200px;
+}
+
+
+
+.factory ul {
+    list-style: none;
+}

@@ -6,12 +6,46 @@
     <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script defer src="scripts/templates/factory.js"></script>
     <script defer src="scripts/app.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/main.css">
+
     <title>Document</title>
 </head>
 <body>
+    <div id="edit-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Factory</h5>
+              <button type="button" class="btn-close close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="factory-name-edit" class="form-label">Factory Name</label>
+                <input id="factory-name-edit" class="form-control"></input>
+
+                <label for="factory-maxVal-edit" class="form-label">Max child value</label>
+                <input id="factory-maxVal-edit" class="form-control"></input>
+
+                <label for="factory-minVal-edit" class="form-label">Min child value</label>
+                <input id="factory-minVal-edit" class="form-control"></input>
+
+                <label for="factory-childCount-edit" class="form-label">Amount of Children</label>
+                <input id="factory-childCount-edit" class="form-control"></input>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn close btn-secondary" >Close</button>
+                    <button id="save-edits" type="button" class="btn close btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+      
     <button id='root'>Websocket</button>
-    <button id="create-factory">New Factory </button>
+    <button type="button" id="create-factory">New Factory </button>
 
     <section id="factories"></section>
 </body>
