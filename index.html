@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <script defer src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
     <script defer src="scripts/templates/factory.js"></script>
     <script defer src="scripts/app.js"></script>
     <!-- JavaScript Bundle with Popper -->
@@ -20,6 +23,7 @@
         <button class="nav-item btn" id='root'>Websocket</button>
         <button type="button" class="btn" id="create-factory">New Factory </button>
     </nav>
+    <!-- EDIT MODAL-->
     <div id="edit-modal" class="modal" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -30,23 +34,97 @@
             <div class="modal-body">
                 <label for="factory-name-edit" class="form-label">Factory Name</label>
                 <input id="factory-name-edit" class="form-control"></input>
+                <p id="factory-name-edit-invalid" class="invalid-msg">Cannot contain special characters or be empty</p>
 
                 <label for="factory-maxVal-edit" class="form-label">Max child value</label>
                 <input id="factory-maxVal-edit" class="form-control"></input>
+                <p id="factory-maxVal-edit-invalid" class="invalid-msg">Must be a number between 1000 and 0</p>
 
                 <label for="factory-minVal-edit" class="form-label">Min child value</label>
                 <input id="factory-minVal-edit" class="form-control"></input>
+                <p id="factory-minVal-edit-invalid" class="invalid-msg">Must be a number between the maximum value and zero</p>
+
 
                 <label for="factory-childCount-edit" class="form-label">Amount of Children</label>
-                <input id="factory-childCount-edit" class="form-control"></input>
+                <select id ="factory-childCount-edit" class="form-select" aria-label="Default select example">
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                    <option value='12'>12</option>
+                    <option value='13'>13</option>
+                    <option value='14'>14</option>
+                    <option value='15'>15</option>
+                  </select>
+                  <p id="factory-childCount-edit-invalid" class="invalid-msg">Please select an option</p>
+
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn close btn-secondary" >Close</button>
-                    <button id="save-edits" type="button" class="btn close btn-primary">Save changes</button>
+                    <button id="save-edits" type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- CREATE MODAL-->
+    <div id="create-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Create a New Factory</h5>
+              <button type="button" class="btn-close close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="factory-name-create" class="form-label">Factory Name</label>
+                <input id="factory-name-create" class="form-control"></input>
+                <p id="factory-name-create-invalid" class="invalid-msg">Cannot contain special characters or be empty</p>
+
+                <label for="factory-maxVal-create" class="form-label">Max child value</label>
+                <input id="factory-maxVal-create" class="form-control"></input>
+                <p id="factory-maxVal-create-invalid" class="invalid-msg">Must be a number greater than zero</p>
+
+                <label for="factory-minVal-create" class="form-label">Min child value</label>
+                <input id="factory-minVal-create" class="form-control"></input>
+                <p id="factory-minVal-create-invalid" class="invalid-msg">Must be a number between the maximum value and zero</p>
+
+                <label for="factory-childCount-create" class="form-label">Amount of Children</label>
+                <select id ="factory-childCount-create" class="form-select" aria-label="Default select example">
+                    <option value="" selected>Choose from the dropdown...</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                    <option value='12'>12</option>
+                    <option value='13'>13</option>
+                    <option value='14'>14</option>
+                    <option value='15'>15</option>
+                  </select>
+                  <p id="factory-childCount-create-invalid" class="invalid-msg">Please select an option</p>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn close btn-secondary" >Close</button>
+                    <button id="post-factory" type="button" class="btn close btn-primary">Create Factory </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
       
 
     <section id="factories"></section>

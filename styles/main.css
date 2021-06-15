@@ -46,6 +46,17 @@
     background: linear-gradient(90deg, rgba(13,110,253,1) 0%, rgba(39,99,191,1) 100%);
 }
 nav {
-    height: 70px;
-    background-color: #adadad;
+    height: 50px;
+}
+.form-label {
+    font-size:30px;
+}
+.form-control{
+    font-size: 1.5rem;
+}
+
+.invalid-msg {
+    font-size: 8px;
+    color: red;
+    display: none;
 }
