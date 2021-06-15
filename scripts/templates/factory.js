@@ -18,6 +18,7 @@ const childTemplate = (child) => {
     return `<li>${child}</li>`
 }
 
+//Creates the Factory then populates it with its children
 const createFactory = ( factory ) => {
     $('#factories').append(factoryTemplate(factory))
     const newEl = $(`#${factory._id} .factory-children`)
