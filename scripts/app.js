@@ -1,19 +1,33 @@
-const API = 'http://localhost:3000'
+const API = 'https://viking-sasquatch-backend.herokuapp.com'
 
 // where all data is stored, the master node that contains the factories
 let masterNode
 
-const socket = new WebSocket(`ws://localhost:3000/updates`) // handles all incoming data from the server for live updates
+const socket = new WebSocket(`wss://viking-sasquatch-backend.herokuapp.com/updates`) // handles all incoming data from the server for live updates
+socket.addEventListener('open', ()=> {
+    console.log('open')
+    setInterval(()=>{
+        socket.send({msg:"keep alive"}) // prevent the socket from closing
+    }, 2000)
+})
+
+socket.addEventListener('error', err => {
+    console.log(err)
+})
+
 socket.onmessage = msg => {
+    console.log('msg')
     masterNode = JSON.parse(msg.data)
     renderFactories()
 }
 
-socket.onclose = () => {
+
+socket.onclose = (rsn) => {
     console.log('closed connection')
+    console.log(rsn)
 }
 //initial data retrieval
-axios.get('http://localhost:3000').then(res => {
+axios.get(API).then(res => {
     masterNode = res.data
     renderFactories()
 }).catch(err => {
