@@ -1,6 +1,6 @@
 //adds a factory element to the appropriate div 
 
-
+//returns a factory div based on the factory object
 const factoryTemplate = (factory) => `
     <div id=${factory._id} data-name="${factory.name}" data-maxVal=${factory.maxVal} data-minVal=${factory.minVal} data-childcount="${factory.childCount}" class="factory card">
         <h2 class="card-title"> ${factory.name} </h2>

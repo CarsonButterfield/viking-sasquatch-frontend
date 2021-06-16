@@ -1,7 +1,11 @@
 const API = 'https://viking-sasquatch-backend.herokuapp.com'
-
 // where all data is stored, the master node that contains the factories
 let masterNode
+
+
+
+// ------------------------WEBSOCKET-----------------------------
+
 
 const socket = new WebSocket(`wss://viking-sasquatch-backend.herokuapp.com/updates`) // handles all incoming data from the server for live updates
 socket.addEventListener('open', ()=> {
@@ -11,28 +15,33 @@ socket.addEventListener('open', ()=> {
     }, 2000)
 })
 
+//error logging
 socket.addEventListener('error', err => {
     console.log(err)
 })
 
+//most data is retrieved through here
 socket.onmessage = msg => {
-    console.log('msg')
     masterNode = JSON.parse(msg.data)
     renderFactories()
 }
 
-
+//letting me know when the socket closes
 socket.onclose = (rsn) => {
     console.log('closed connection')
     console.log(rsn)
 }
-//initial data retrieval
+//initial data retrieval, only time data is retrieved without the websocket
 axios.get(API).then(res => {
     masterNode = res.data
     renderFactories()
 }).catch(err => {
     console.log(err)
 })
+
+
+// -------------------------------FUNCTIONS----------------------------------------
+
 
 //REGEX to check for special characters and empty strings
 function isValid(str) {
@@ -50,24 +59,24 @@ const renderFactories = () => {
 //Quick little form validation function
 const validateForm = (formType) => {
 
-    let errorCount = 0;
+    let errorCount = 0; //what gets returned, anything over 0 will cause false to be returned
     //assigning the values to variables for readability and to reduce queries
     const factoryName = $(`#factory-name-${formType}`)
     const factoryMinVal = $(`#factory-minVal-${formType}`)//huzzah for consistent names
     const factoryMaxVal = $(`#factory-maxVal-${formType}`)
     const factoryChildCount = $(`#factory-childCount-${formType}`)
 
-
+    //Checking the name for invalid characters or empty strings
     if (!isValid(factoryName.val())) {
         factoryName.addClass('is-invalid')
-        $(`#factory-name-${formType}-invalid`).show()
+        $(`#factory-name-${formType}-invalid`).show() // the message
         errorCount++
     } else {
-        factoryName.removeClass('is-invalid')
+        factoryName.removeClass('is-invalid') 
         $(`#factory-name-${formType}-invalid`).hide()
     }
 
-    //Making sure minval is a number and greater than or equal to 0\
+    //Making sure minval is a number and greater than or equal to 0
     if (isNaN(factoryMinVal.val()) || factoryMinVal.val() < 0 || Number(factoryMinVal.val()) > Number(factoryMaxVal.val())) {
         factoryMinVal.addClass('is-invalid')
         $(`#factory-minVal-${formType}-invalid`).show()
@@ -101,18 +110,20 @@ const validateForm = (formType) => {
 
 
 
+// -------------------------------EVENTS----------------------------------------
 
 
-
+//Event listener to delete factories
 $('#factories').on('click', '.delete-factory', function (e) {
     axios.delete(`${API}/factories/${this.parentElement.id}`)
         .then(res => {
-            console.log(res.status)
+            // console.log(res.status)
         }).catch(err => console.log(err))
 
 })
 
 //event delegated because each card is generated after initial load
+//Opens the edit modal and sets all the values to match the selected factory
 $('#factories').on('click', '.edit-factory', function (e) {
     const factory = this.parentElement.parentElement
     //populating the edit form with the targeted factories data
@@ -168,14 +179,30 @@ $('#factories').on('click', '.create-children', function (e) {
         }).catch(err => console.log(err))
 })
 
+//opens the create modal and resets it
 $('#create-factory').click(e => {
     $('#factory-name-create').val("")
     $('#factory-maxVal-create').val(""),
-        $('#factory-minVal-create').val(""),
-        $('#factory-childCount-create').val("")
+    $('#factory-minVal-create').val(""),
+    $('#factory-childCount-create').val("")
+    
+    //removing any invalid status
+    $('#factory-name-create').removeClass('is-invalid')
+    $('#factory-maxVal-create').removeClass('is-invalid')
+    $('#factory-minVal-create').removeClass('is-invalid')
+    $('#factory-childCount-create').removeClass('is-invalid')
+
+    //hiding invalid messages
+    $(`#factory-minVal-create-invalid`).hide()
+    $(`#factory-maxVal-create-invalid`).hide()
+    $(`#factory-childCount-create-invalid`).hide()
+    $(`#factory-name-create-invalid`).hide()
+    
     $('#create-modal').modal('toggle')
 })
 
+
+//submitting the factory after validation the form
 $('#post-factory').click(e => {
     const newFactory = {
         name: $('#factory-name-create').val(),
@@ -187,7 +214,7 @@ $('#post-factory').click(e => {
     if (validateForm('create', newFactory)) {
         axios.post(`${API}/factories`, newFactory)
             .then(res => {
-                console.log(res.status)
+                // console.log(res.status)
             }).catch(err => {
                 console.log(err)
             })
